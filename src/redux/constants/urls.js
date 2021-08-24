@@ -19,6 +19,11 @@ export const answerCorrectionUrl = ({ gameId, AnswerId }) =>
     : `game/${gameId}/mentor/problem/`
 
 
+// auction
+export const auctionUrl = 'auction/';
+export const createAuctionUrl = 'auction/create/';
+export const buyAuctionUrl = 'auction/buy/';
+
 
 
 

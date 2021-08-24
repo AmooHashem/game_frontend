@@ -99,7 +99,7 @@ function ResponsiveAppBar({
               )}
               <Grid container justify="space-between">
                 <Grid
-                  xs={6}
+                  xs
                   item
                   spacing={1}
                   container
@@ -112,7 +112,7 @@ function ResponsiveAppBar({
                   ))}
                 </Grid>
                 <Grid
-                  xs={6}
+                  xs
                   item
                   spacing={1}
                   container

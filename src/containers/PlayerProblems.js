@@ -6,6 +6,7 @@ import {
   FormControlLabel,
   FormLabel,
   Grid,
+  IconButton,
   InputLabel,
   makeStyles,
   MenuItem,
@@ -19,14 +20,17 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
   Typography,
 } from '@material-ui/core';
+import GavelIcon from '@material-ui/icons/Gavel';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
 import ResponsiveAppBar from '../components/Appbar/ResponsiveAppBar'
 import AreYouSure from '../components/Dialog/AreYouSure';
+import CreateAuction from '../components/Dialog/CreateAuction';
 import {
   buyRandomProblemAction,
   getAllGameSubjectsAction,
@@ -76,6 +80,7 @@ const PlayerProblems = ({
   let { gameId } = useParams();
   const [properties, setProperties] = useState({ difficulty: '', subject: '' });
   const [isDialogOpen, setDialogStatus] = useState(false);
+  const [auctionDialogProblem, setAuctionDialogProblem] = useState(false);
 
 
   useEffect(() => {
@@ -122,11 +127,12 @@ const PlayerProblems = ({
                 <TableHead>
                   <TableRow>
                     <TableCell align='center'>عنوان</TableCell>
+                    <TableCell align='center'>مبحث</TableCell>
                     <TableCell align='center'>سختی</TableCell>
                     <TableCell align='center'>وضعیت</TableCell>
                     <TableCell align='center'>هزینه</TableCell>
                     <TableCell align='center'>پاداش</TableCell>
-                    <TableCell align='center'>نمره</TableCell>
+                    <TableCell align='center'>مزایده</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -140,11 +146,16 @@ const PlayerProblems = ({
                           {problem.problem?.title}
                         </Button>
                       </TableCell>
+                      <TableCell align='center'>{problem.problem?.subject?.title}</TableCell>
                       <TableCell align='center'>{DIFFICULTY[problem.problem?.difficulty]}</TableCell>
                       <TableCell align='center'>{STATUS[problem.status]}</TableCell>
                       <TableCell align='center'>{toPersianNumber(problem.problem?.cost || 0)}</TableCell>
-                      <TableCell align='center'>{toPersianNumber(problem.problem?.reward || 0)}</TableCell>
                       <TableCell align='center'>{problem.mark == -1 ? '-' : toPersianNumber(problem.mark || 0)}</TableCell>
+                      <TableCell align='center'>
+                        <IconButton onClick={() => setAuctionDialogProblem(problem.problem?.id)}>
+                          <GavelIcon />
+                        </IconButton>
+                      </TableCell>
                     </TableRow>
                   )}
                 </TableBody>
@@ -162,7 +173,6 @@ const PlayerProblems = ({
                 <Grid item>
                   <Typography variant="h2" align='center'>مسئله‌ی جدید</Typography>
                 </Grid>
-                <Divider />
                 <Grid item>
                   <FormControl size='small' variant="outlined" fullWidth>
                     <InputLabel>مبحث</InputLabel>
@@ -187,7 +197,7 @@ const PlayerProblems = ({
                       name='difficulty'
                       label='سختی'
                     >
-                      <MenuItem value={'EASY'}>{'آسان'}</MenuItem>
+                      {/* <MenuItem value={'EASY'}>{'آسان'}</MenuItem> */}
                       <MenuItem value={'MEDIUM'}>{'متوسط'}</MenuItem>
                       <MenuItem value={'HARD'}>{'سخت'}</MenuItem>
                     </Select>
@@ -205,6 +215,11 @@ const PlayerProblems = ({
         open={isDialogOpen}
         handleClose={() => { setDialogStatus(!isDialogOpen) }}
         callBackFunction={buyProblem}
+      />
+      <CreateAuction
+        problemId={auctionDialogProblem}
+        open={auctionDialogProblem}
+        handleClose={() => { setAuctionDialogProblem(!auctionDialogProblem) }}
       />
     </Layout>
   );

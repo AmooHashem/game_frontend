@@ -10,17 +10,18 @@ const DashboardItems = () => {
   const logoButton = <LogoButton />;
   // todo: fix hard code
   const playerProblem = <DashboardButton name={'مسئله‌های من'} to={'/game/1/player_problems/'} />;
-  const auction = <DashboardButton name={'مزایده'} to={'/game/1/auction/'} />;
+  const auction = <DashboardButton name={'تابلوی مزایده'} to={'/game/1/auction/'} />;
+  const scoreBoard = <DashboardButton name={'جدول امتیازات'} to={'/game/1/scoreboard/'} />;
   const logoutButton = <LogoutButton />;
   const Avatar = <AvatarComponent />;
   const PlayerInfo = <PlayerInfoComponent />;
 
   return {
-    desktopLeftItems: [logoutButton, Avatar],
+    desktopLeftItems: [scoreBoard, logoutButton, Avatar],
     desktopRightItems: [PlayerInfo, playerProblem, auction],
     mobileLeftItems: [PlayerInfo],
     mobileRightItems: [],
-    mobileMenuListItems: [logoutButton, playerProblem, auction],
+    mobileMenuListItems: [playerProblem, auction, scoreBoard, logoutButton,],
   };
 };
 

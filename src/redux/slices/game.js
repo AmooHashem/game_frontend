@@ -84,54 +84,6 @@ export const getOneAnswerForCorrectionAction = createAsyncThunkApi(
 
 
 
-
-
-
-
-export const buyRanomProblemAction = createAsyncThunkApi(
-  'events/getAllGameSubjectsAction',
-  Apis.GET,
-  eventInfoUrl,
-);
-
-export const sample = createAsyncThunkApi(
-  'events/editOneEventInfoAction',
-  Apis.PATCH,
-  eventInfoUrl,
-  {
-    bodyCreator: ({ workshopPlayerId }) => ({
-      player_workshop: workshopPlayerId,
-    }),
-    defaultNotification: {
-      success: 'وضعیت رسید ثبت‌نام با موفقیت ثبت شد.',
-    },
-  }
-);
-
-export const getAllRegistrationReceiptsAction = createAsyncThunkApi(
-  'events/getAllRegistrationReceiptsAction',
-  Apis.GET,
-  allRegistrationReceiptsUrl,
-);
-
-export const getOneRegistrationReceiptAction = createAsyncThunkApi(
-  'events/getOneRegistrationReceiptAction',
-  Apis.GET,
-  oneRegistrationReceiptUrl,
-);
-
-export const validateRegistrationReceiptAction = createAsyncThunkApi(
-  'events/validateRegistrationReceiptAction',
-  Apis.POST,
-  validateRegistrationReceiptUrl,
-  {
-    defaultNotification: {
-      success: 'وضعیت رسید ثبت‌نام با موفقیت ثبت شد.',
-    },
-  }
-);
-
-
 const initialState = {
   isFetching: false,
   allGameSubjects: [],
@@ -202,15 +154,6 @@ const eventSlice = createSlice({
       state.isFetching = false;
     },
     [getOneAnswerForCorrectionAction.rejected.toString()]: isNotFetching,
-
-
-
-
-    // [getOneEventInfoAction.pending.toString()]: isFetching,
-    // [getOneEventInfoAction.fulfilled.toString()]: (state, { payload: { response } }) => {
-    //   state.event = response;
-    // },
-    // [getOneEventInfoAction.rejected.toString()]: isNotFetching,
   },
 });
 
