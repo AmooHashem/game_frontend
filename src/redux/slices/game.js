@@ -9,6 +9,7 @@ import {
   playerProblemUrl,
   oneRegistrationReceiptUrl,
   subjectUrl,
+  answerCorrectionUrl,
   validateRegistrationReceiptUrl,
 } from '../constants/urls';
 
@@ -59,6 +60,25 @@ export const answerProblemAction = createAsyncThunkApi(
       error: 'مشکلی وجود داشت. دوباره تلاش کنید.',
     },
   }
+);
+
+
+export const setAnswerMarkAction = createAsyncThunkApi(
+  'events/setAnswerMarkAction',
+  Apis.POST,
+  answerCorrectionUrl,
+  {
+    defaultNotification: {
+      success: 'نمره‌ی شما با موفقیت ثبت شد!',
+      error: 'مشکلی وجود داشت. دوباره تلاش کنید.',
+    },
+  }
+);
+
+export const getOneAnswerForCorrectionAction = createAsyncThunkApi(
+  'events/getOneAnswerForCorrectionAction',
+  Apis.POST,
+  answerCorrectionUrl,
 );
 
 
@@ -175,6 +195,13 @@ const eventSlice = createSlice({
     },
     [getOnePlayerProblemAction.rejected.toString()]: isNotFetching,
 
+
+    [getOneAnswerForCorrectionAction.pending.toString()]: isFetching,
+    [getOneAnswerForCorrectionAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.playerAnswer = response;
+      state.isFetching = false;
+    },
+    [getOneAnswerForCorrectionAction.rejected.toString()]: isNotFetching,
 
 
 

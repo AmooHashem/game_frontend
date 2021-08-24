@@ -20,6 +20,12 @@ export const errorHandler = (
     });
   }
 
+  if (error.response.data?.detail) {
+    return rejectWithValue({
+      message: error.response.data?.detail,
+    });
+  }
+
   if (error.response.data?.code && persianMessages[error.response.data?.code]) {
     return rejectWithValue({
       message: persianMessages[error.response.data?.code]

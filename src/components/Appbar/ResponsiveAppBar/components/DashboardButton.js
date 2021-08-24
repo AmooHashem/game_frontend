@@ -13,6 +13,7 @@ export default function DashboardButton({ name, iconImage, to }) {
   const classes = useStyles();
   return (
     <Button
+      size='small'
       variant="outlined"
       component={Link}
       to={to}
@@ -26,8 +27,8 @@ export default function DashboardButton({ name, iconImage, to }) {
             />
           </Icon>
         ) : (
-          ''
-        )
+            ''
+          )
       }>
       <Typography variant="caption">{name}</Typography>
     </Button>

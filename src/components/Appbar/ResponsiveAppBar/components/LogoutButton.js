@@ -15,8 +15,9 @@ function LogoutButton({ logout }) {
   const classes = useStyles();
   return (
     <Button
+      size='small'
       variant="outlined"
-      onClick={logout}
+      onClick={() => logout()}
       endIcon={
         <Icon>
           <img
@@ -27,7 +28,7 @@ function LogoutButton({ logout }) {
         </Icon>
       }>
       <Typography variant="caption">{'خروج'}</Typography>
-    </Button>
+    </Button >
   );
 }
 

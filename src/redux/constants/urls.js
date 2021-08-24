@@ -13,6 +13,11 @@ export const playerProblemUrl = ({ gameId, problemId }) =>
     ? `game/${gameId}/problem/${problemId}/`
     : `game/${gameId}/problem/`
 
+export const answerCorrectionUrl = ({ gameId, AnswerId }) =>
+  AnswerId
+    ? `game/${gameId}/mentor/problem/${AnswerId}/`
+    : `game/${gameId}/mentor/problem/`
+
 
 
 

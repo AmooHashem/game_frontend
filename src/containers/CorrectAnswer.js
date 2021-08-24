@@ -1,25 +1,29 @@
 import {
   Button,
-  ButtonGroup,
-  Container,
   Divider,
+  FormControl,
   Grid,
+  InputLabel,
   makeStyles,
+  MenuItem,
   Paper,
-  TextField,
+  Select,
   Typography,
 } from '@material-ui/core';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
 
-import TextWidget from '../../components/Widget/TextWidget';
+import TextWidget from '../components/Widget/TextWidget';
 import {
-  correctAnswer,
-  getPlayerSingleProblemForCorrection,
-} from '../../redux/actions/game';
-
-const BASE_URL_OF_FILES_ON_DATABASE = 'https://backend.interkarsolar.ir/media/'
+  getAllGameSubjectsAction,
+  getOneAnswerForCorrectionAction,
+  setAnswerMarkAction,
+} from '../redux/slices/game';
+import {
+  addNotificationAction,
+} from '../redux/slices/notifications';
+import Layout from './Layout';
 
 const useStyles = makeStyles((theme) => ({
   centerItems: {
@@ -44,63 +48,104 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Index = ({
-  getPlayerSingleProblemForCorrection,
-  correctAnswer,
-  playerSingleProblem,
+  addNotification,
+  getOneAnswerForCorrection,
+  setAnswerMark,
+  getAllGameSubjects,
+
+  playerAnswer,
+  allGameSubjects,
   isFetching,
 }) => {
   const classes = useStyles();
-  const [mark, setMark] = useState();
-  const [problemText, setProblemText] = useState('');
-  const [answerText, setAnswerText] = useState('')
+  const { gameId } = useParams();
 
-  const isDigit = (string) => {
-    var regex = new RegExp(`\\d{${string.length}}`);
-    if (regex.test(string)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  const [properties, setProperties] = useState({ mark: '', subject: '' });
+  const [problemText, setProblemText] = useState();
+  const [answerText, setAnswerText] = useState()
 
   useEffect(() => {
-    getPlayerSingleProblemForCorrection()
-  }, [getPlayerSingleProblemForCorrection])
+    getAllGameSubjects({ gameId });
+  }, [getAllGameSubjects])
 
   useEffect(() => {
-    if (playerSingleProblem?.text_answer) {
-      setAnswerText(<TextWidget text={playerSingleProblem?.text_answer} />)
+    if (playerAnswer?.text_answer) {
+      setAnswerText(<TextWidget text={playerAnswer?.text_answer} />)
     }
-    if (playerSingleProblem?.problem?.text) {
-      setProblemText(<TextWidget text={playerSingleProblem?.problem?.text} />)
+    if (playerAnswer?.problem?.text) {
+      setProblemText(<TextWidget text={playerAnswer?.problem?.text} />)
     }
-  }, [playerSingleProblem])
+  }, [playerAnswer])
 
-  const submitScore = () => {
-    if (!mark || (!isDigit(mark) && mark != null)) {
-      toast.error('نمره فقط می‌تونه رقم انگلیسی باشه!');
+  const getOneAnswer = () => {
+    if (!properties.subject) {
+      addNotification({
+        message: 'لطفاً مبحث مسئله را انتخاب کنید.',
+        type: 'error',
+      });
       return;
     }
-    if (mark < 0 || mark > 10) {
-      toast.error('لطفاً یک نمره بین ۰ تا ۱۰ وارد کن!');
-      return;
-    }
-    correctAnswer({ mark, player_single_problem_id: playerSingleProblem?.id })
+    getOneAnswerForCorrection({ gameId, subject: properties.subject })
   }
 
-  console.log(playerSingleProblem)
-  console.log(mark)
+  const handleSelect = (e) => {
+    setProperties({
+      ...properties,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const calculateMark = (e) => {
+    const status = e.target.value;
+    const difficulty = playerAnswer?.problem?.difficulty;
+    const from_auction = playerAnswer?.from_auction ? 1 : 0;
+    const TABLE = [
+      {
+        EASY: [-1, -1],
+        MEDIUM: [0, 0],
+        HARD: [1, 1],
+      },
+      {
+        EASY: [-1, -1],
+        MEDIUM: [2, 1],
+        HARD: [4, 2],
+      },
+      {
+        EASY: [-1, -1],
+        MEDIUM: [3, 2],
+        HARD: [6, 3],
+      },
+    ]
+    setProperties({
+      ...properties,
+      mark: TABLE[status][difficulty][from_auction],
+    })
+  }
+
+  const submitMark = () => {
+    if (properties.mark == -1) {
+      addNotification({
+        message: 'لطفاً ابتدا نمره را تعیین کنید.',
+        type: 'error',
+      });
+      return;
+    }
+    setAnswerMark({ mark: properties.mark, gameId, AnswerId: playerAnswer?.id })
+  }
 
   return (
-    <Container className={`${classes.centerItems}`}>
-      <Grid container justify='center' spacing={2}>
-        <Grid item container justify='center' alignItems='flex-start' xs={12} sm={9} md={6} spacing={1}>
-          <Grid item xs={12}>
+    <Layout>
+      <Grid container spacing={2} justify='center'>
+        <Grid item>
+          <Typography variant="h1" align="center">{'«تصحیح»'}</Typography>
+        </Grid>
+        <Grid item container spacing={2} alignItems='flex-start'>
+          <Grid item container xs={12} md={8} direction='column'>
             <Paper className={classes.paper}>
               <Grid container direction='column' spacing={2} >
                 <Grid item>
                   <Typography variant='h2'>
-                    {playerSingleProblem?.problem?.title}
+                    {'عنوان مسئله: ' + (playerAnswer?.problem?.title || '؟')}
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
@@ -108,61 +153,106 @@ const Index = ({
                 </Grid>
                 <Grid item>
                   <Typography variant='h2'>
-                    {'پاسخ تایپ‌شده'}
+                    {'پاسخ تایپ‌شده:'}
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
                   {answerText}
                 </Grid>
-                {/* {fileAnswer &&
-                  <Grid item xs={12}>
-                    <a href={fileAnswer} >
-                      {'دانلود فایل پاسخ'}
-                    </a>
-                  </Grid>
-                } */}
-              </Grid>
-            </Paper>
-          </Grid>
-        </Grid>
-
-
-        <Grid item container justify='center' alignItems='flex-start' xs={12} sm={9} md={3} spacing={2}>
-          <Grid item xs={12}>
-            <Paper className={classes.paper}>
-              <Grid container direction='column' spacing={2} >
-                <Grid item>
-                  <Typography align='center' variant='h2'>
-                    {'نمره‌دهی'}
-                  </Typography>
-                </Grid>
-                <Grid item >
-                  <TextField fullWidth label='نمره' variant='outlined'
-                    value={mark} onChange={(e) => setMark(e.target.value)} />
-                </Grid>
-                <Grid item >
-                  <Button disabled={isFetching} variant='contained' fullWidth color='primary' onClick={submitScore}>
-                    {'ثبت'}
+                <Grid item xs={12}>
+                  <Button variant='outlined' fullWidth
+                    disabled={!playerAnswer?.file_answer}
+                    href={playerAnswer?.file_answer}
+                    component="a" target="_blank">
+                    {'دانلود فایل پاسخ'}
                   </Button>
                 </Grid>
               </Grid>
             </Paper>
           </Grid>
+          <Grid item container xs={12} md={4}>
+            <Paper className={classes.paper}>
+              <Grid container direction='column' spacing={2} >
+
+                <Grid item>
+                  <Typography align='center' variant='h2'>
+                    {'انتخاب مسئله'}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <FormControl size='small' variant="outlined" fullWidth>
+                    <InputLabel>مبحث</InputLabel>
+                    <Select
+                      className={classes.dropDown}
+                      onBlur={handleSelect}
+                      name='subject'
+                      label='مبحث'
+                    >
+                      {allGameSubjects.map((subject, index) => (
+                        <MenuItem key={index} value={subject.id}>{subject.title}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl >
+                </Grid>
+                <Grid item >
+                  <Button disabled={isFetching} variant='contained'
+                    fullWidth color='primary'
+                    onClick={getOneAnswer}>
+                    {'دریافت'}
+                  </Button>
+                </Grid>
+                {playerAnswer &&
+                  <>
+                    <Divider />
+                    <Grid item>
+                      <Typography align='center' variant='h2'>
+                        {'نمره‌دهی'}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <FormControl size='small' variant="outlined" fullWidth>
+                        <InputLabel>وضعیت</InputLabel>
+                        <Select
+                          className={classes.dropDown}
+                          onBlur={calculateMark}
+                          label='وضعیت'
+                        >
+                          <MenuItem value={0}>{'۰ - ۳۰'}</MenuItem>
+                          <MenuItem value={1}>{'۳۰ - ۷۰'}</MenuItem>
+                          <MenuItem value={2}>{'۷۰ - ۱۰۰'}</MenuItem>
+                        </Select>
+                      </FormControl >
+                    </Grid>
+                    <Grid item >
+                      <Button disabled={isFetching} variant='contained'
+                        fullWidth color='primary'
+                        onClick={submitMark}>
+                        {'ثبت'}
+                      </Button>
+                    </Grid>
+                  </>
+                }
+              </Grid>
+            </Paper>
+          </Grid>
         </Grid>
-      </Grid>
-    </Container>
+      </Grid >
+    </Layout>
   )
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state) => ({
+  allGameSubjects: state.game.allGameSubjects,
   isFetching: state.game.isFetching,
-  playerSingleProblem: state.game.playerSingleProblem,
+  playerAnswer: state.game.playerAnswer,
 })
 
 export default connect(
   mapStateToProps,
   {
-    getPlayerSingleProblemForCorrection,
-    correctAnswer,
+    getAllGameSubjects: getAllGameSubjectsAction,
+    addNotification: addNotificationAction,
+    setAnswerMark: setAnswerMarkAction,
+    getOneAnswerForCorrection: getOneAnswerForCorrectionAction,
   }
 )(Index)

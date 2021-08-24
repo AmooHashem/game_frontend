@@ -6,15 +6,14 @@ import {
   accountCRUDUrl,
   discountCRUDUrl,
   loginUrl,
-  playerUrl,
   merchandiseDiscountCodeUrl,
+  playerUrl,
   profileCRUDUrl,
   studentshipCRUDUrl,
 } from '../constants/urls';
 
 const initialState = {
-  token: null,
-  user: {},
+  token: '',
 };
 
 export const loginAction = createAsyncThunkApi(
