@@ -6,11 +6,11 @@ export const playerUrl = ({ gameId }) => `game/${gameId}/player/`;
 // game
 export const subjectUrl = ({ gameId, subjectId }) =>
   subjectId
-    ? `game/${gameId}/subject/${subjectId}`
+    ? `game/${gameId}/subject/${subjectId}/`
     : `game/${gameId}/subject/`;
 export const playerProblemUrl = ({ gameId, problemId }) =>
   problemId
-    ? `game/${gameId}/problem/${problemId}`
+    ? `game/${gameId}/problem/${problemId}/`
     : `game/${gameId}/problem/`
 
 

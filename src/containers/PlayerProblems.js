@@ -1,4 +1,3 @@
-
 import {
   Button,
   Container,
@@ -110,24 +109,22 @@ const PlayerProblems = ({
     buyRandomProblem({ gameId, ...properties })
   }
 
-  console.log(allPlayerProblems)
-
   return (
     <Layout>
       <Grid container spacing={2} justify='center'>
-        <Grid item xs={12}>
+        <Grid item>
           <Typography variant="h1" align="center">{'«مسئله‌های من»'}</Typography>
         </Grid>
-        <Grid item container spacing={2}>
+        <Grid item container spacing={2} alignItems='flex-start'>
           <Grid item container xs={12} md={8} direction='column'>
             <TableContainer component={Paper}>
               <Table >
                 <TableHead>
                   <TableRow>
-                    <TableCell align='center'>ردیف</TableCell>
+                    {/* <TableCell align='center'>ردیف</TableCell> */}
                     <TableCell align='center'>عنوان</TableCell>
                     <TableCell align='center'>سختی</TableCell>
-                    <TableCell align='center'>وضعیت</TableCell>
+                    {/* <TableCell align='center'>وضعیت</TableCell> */}
                     <TableCell align='center'>هزینه</TableCell>
                     <TableCell align='center'>پاداش</TableCell>
                     <TableCell align='center'>نمره</TableCell>
@@ -136,16 +133,17 @@ const PlayerProblems = ({
                 <TableBody>
                   {allPlayerProblems.map((problem, index) =>
                     <TableRow key={index}>
-                      <TableCell align='center'>{index}</TableCell>
+                      {/* <TableCell align='center'>{toPersianNumber(index)}</TableCell> */}
                       <TableCell align='center'>
                         <Button
-                          href={`/game/${gameId}/problem/single/${problem.problem?.id}`}
+                          disabled={problem.status != 'RECEIVED'}
+                          href={`/game/${gameId}/problem/${problem.problem?.id}/`}
                           component="a" target="_blank">
                           {problem.problem?.title}
                         </Button>
                       </TableCell>
                       <TableCell align='center'>{DIFFICULTY[problem.problem?.difficulty]}</TableCell>
-                      <TableCell align='center'>{STATUS[problem.status]}</TableCell>
+                      {/* <TableCell align='center'>{STATUS[problem.status]}</TableCell> */}
                       <TableCell align='center'>{toPersianNumber(problem.problem?.cost || 0)}</TableCell>
                       <TableCell align='center'>{toPersianNumber(problem.problem?.reward || 0)}</TableCell>
                       <TableCell align='center'>{problem.mark == -1 ? '-' : toPersianNumber(problem.mark || 0)}</TableCell>

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = { redirectTo: null, force: false };
+import { answerProblemAction } from './game';
 
 const redirectSlice = createSlice({
   name: 'redirect',
@@ -8,14 +9,14 @@ const redirectSlice = createSlice({
   reducers: {
     initRedirect: () => initialState,
   },
-  // extraReducers: {
-  //   [createWorkshopAction.fulfilled.toString()]: (state, { payload: { response } }) => ({
-  //     redirectTo: `/edit_workshop/${response.id}`,
-  //   }),
-  //   [createArticleAction.fulfilled.toString()]: (state, { payload: { response } }) => ({
-  //     redirectTo: `/edit_article/${response.id}`,
-  //   }),
-  // },
+  extraReducers: {
+    [answerProblemAction.fulfilled.toString()]: (state, action) => {
+      return { redirectTo: `/game/${action?.meta?.arg.gameId}/my_problems` }
+    },
+    // [createArticleAction.fulfilled.toString()]: (state, { payload: { response } }) => ({
+    //   redirectTo: `/edit_article/${response.id}`,
+    // }),
+  },
 });
 
 export const { initRedirect: initRedirectAction } = redirectSlice.actions;

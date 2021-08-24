@@ -24,6 +24,13 @@ export const getAllPlayerProblemsAction = createAsyncThunkApi(
   playerProblemUrl,
 );
 
+export const getOnePlayerProblemAction = createAsyncThunkApi(
+  'events/getOnePlayerProblemAction',
+  Apis.GET,
+  playerProblemUrl,
+);
+
+
 export const getAllGameSubjectsAction = createAsyncThunkApi(
   'events/getAllGameSubjectsAction',
   Apis.GET,
@@ -41,6 +48,21 @@ export const buyRandomProblemAction = createAsyncThunkApi(
     },
   }
 );
+
+export const answerProblemAction = createAsyncThunkApi(
+  'events/answerProblemAction',
+  Apis.POST_FORM_DATA,
+  playerProblemUrl,
+  {
+    defaultNotification: {
+      success: 'پاسخ مسئله با موفقیت ثبت شد!',
+      error: 'مشکلی وجود داشت. دوباره تلاش کنید.',
+    },
+  }
+);
+
+
+
 
 
 
@@ -139,6 +161,22 @@ const eventSlice = createSlice({
       state.isFetching = false;
     },
     [buyRandomProblemAction.rejected.toString()]: isNotFetching,
+
+
+    [answerProblemAction.pending.toString()]: isFetching,
+    [answerProblemAction.fulfilled.toString()]: isNotFetching,
+    [answerProblemAction.rejected.toString()]: isNotFetching,
+
+
+    [getOnePlayerProblemAction.pending.toString()]: isFetching,
+    [getOnePlayerProblemAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.playerProblem = response;
+      state.isFetching = false;
+    },
+    [getOnePlayerProblemAction.rejected.toString()]: isNotFetching,
+
+
+
 
 
     // [getOneEventInfoAction.pending.toString()]: isFetching,

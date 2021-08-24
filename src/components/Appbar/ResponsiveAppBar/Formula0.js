@@ -9,17 +9,18 @@ import PlayerInfoComponent from './components/PlayerInfo';
 const DashboardItems = () => {
   const logoButton = <LogoButton />;
   // todo: fix hard code
-  const dashboard = <DashboardButton name={'رویداد'} to={'/event/1/0/'} />;
+  const playerProblem = <DashboardButton name={'مسئله‌های من'} to={'/game/1/player_problems/'} />;
+  const auction = <DashboardButton name={'مزایده'} to={'/game/1/auction/'} />;
   const logoutButton = <LogoutButton />;
   const Avatar = <AvatarComponent />;
   const PlayerInfo = <PlayerInfoComponent />;
 
   return {
     desktopLeftItems: [logoutButton, Avatar],
-    desktopRightItems: [PlayerInfo, dashboard],
-    mobileLeftItems: [Avatar],
-    mobileRightItems: [dashboard],
-    mobileMenuListItems: [logoutButton],
+    desktopRightItems: [PlayerInfo, playerProblem, auction],
+    mobileLeftItems: [PlayerInfo],
+    mobileRightItems: [],
+    mobileMenuListItems: [logoutButton, playerProblem, auction],
   };
 };
 

@@ -1,6 +1,7 @@
 import { makeStyles, Chip } from '@material-ui/core';
 import React from 'react';
 import { connect } from 'react-redux';
+import { toPersianNumber } from '../../../../utils/translateNumber';
 
 const useStyles = makeStyles(() => ({
   avatar: {},
@@ -9,7 +10,9 @@ const useStyles = makeStyles(() => ({
 function Index({ score }) {
   const classes = useStyles();
   return (
-    <Chip variant="outlined" color="primary" label={`سکه‌ی شما: ${score}`} />
+    <div style={{ direction: 'ltr' }}>
+      <Chip variant="outlined" color="primary" label={`چوق شما: ${toPersianNumber(score)}`} />
+    </div>
   );
 }
 
