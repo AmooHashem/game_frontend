@@ -122,6 +122,9 @@ const Index = ({
     })
   }
 
+
+  console.log(properties)
+
   const submitMark = () => {
     if (properties.mark == -1) {
       addNotification({

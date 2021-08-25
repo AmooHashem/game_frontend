@@ -16,6 +16,7 @@ import {
 import React from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router';
+
 import {
   createAuctionAction,
 } from '../../redux/slices/auction';
@@ -51,6 +52,7 @@ function Index({
       return;
     }
     createAuction({ game: gameId, price, problem: problemId })
+    handleClose()
   }
 
   return (
@@ -68,8 +70,8 @@ function Index({
       <DialogActions>
         <Grid container spacing={1} justify='center'>
           <FormControl>
-            <FormLabel>قیمت</FormLabel>
-            <RadioGroup row onChange={(e) => setPrice(e.target.value)}>
+            <FormLabel>قیمت پیشنهادی</FormLabel>
+            <RadioGroup defaultValue={price} row onChange={(e) => setPrice(e.target.value)}>
               <FormControlLabel
                 value="1"
                 control={<Radio />}

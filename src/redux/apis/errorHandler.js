@@ -10,7 +10,7 @@ export const errorHandler = (
 
   if (!error.response) {
     return rejectWithValue({
-      message: 'ارتباطت با مشکل مواجه شده. یه چند لحظه دیگه دوباره تلاش کن!',
+      message: 'ارتباط با مشکل مواجه شده است. چند لحظه‌ی دیگر دوباره تلاش کنید.',
     });
   }
 

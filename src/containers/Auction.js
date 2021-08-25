@@ -1,80 +1,113 @@
 import {
-  Button,
   Grid,
-  Link,
-  makeStyles,
+  IconButton,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
+  Typography,
 } from '@material-ui/core';
+import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutlined';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router';
 
 import {
-  getAllRegistrationReceiptsAction,
-} from '../../redux/slices/events';
-import { faSeri, toPersianNumber } from '../../utils/translateNumber';
+  buyAuctionAction,
+  getAllAuctionsAction,
+} from '../redux/slices/auction';
+import { toPersianNumber } from '../utils/translateNumber';
+import Layout from './Layout';
 
-const STATUS = {
-  Waiting: 'منتظر',
-  Accepted: 'پذیرفته‌شده',
-  Rejected: 'پذیرفته‌‌نشده',
+const DIFFICULTY = {
+  'EASY': 'آسان',
+  'MEDIUM': 'متوسط',
+  'HARD': 'سخت',
 }
 
 function Index({
-  getAllRegistrationReceipts,
-  allRegistrationReceipts,
-  registrationFormId,
+  buyAuction,
+  getAllAuctions,
+
+  allAuctions,
 }) {
+  const { gameId } = useParams();
 
   useEffect(() => {
-    if (allRegistrationReceipts?.length == 0 && registrationFormId) {
-      getAllRegistrationReceipts({ registrationFormId })
-    }
-  }, [allRegistrationReceipts, registrationFormId, getAllRegistrationReceipts])
+    getAllAuctions({ gameId })
+  }, [getAllAuctions])
+
+  const buyProblemInAuction = (auctionId) => {
+    buyAuction({ gameId, auction: auctionId });
+  }
 
   return (
-    <Grid container direction='column' spacing={2}>
-      <Grid item>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell align='center'>شناسه</TableCell>
-                <TableCell align='center'>نام</TableCell>
-                <TableCell align='center'>پایه</TableCell>
-                <TableCell align='center'>وضعیت</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {allRegistrationReceipts?.slice().sort((a, b) => { return a.id > b.id ? -1 : 1 }).map((registrationReceipt, index) =>
-                <TableRow key={index}>
-                  <TableCell align='center'>
-                    {toPersianNumber(registrationReceipt?.id)}
-                  </TableCell>
-                  <TableCell align='center'>
-                    <Button
-                      href={'/registration_receipt/' + registrationReceipt?.id}
-                      component="a" target="_blank">
-                      {(registrationReceipt?.first_name && registrationReceipt?.last_name) ? `${registrationReceipt?.first_name} ${registrationReceipt?.last_name}` : 'بی‌نام'}
-                    </Button>
-                  </TableCell>
-                  <TableCell align='center'>
-                    {faSeri(registrationReceipt?.school_studentship?.grade)}
-                  </TableCell>
-                  <TableCell align='center'>
-                    {STATUS[registrationReceipt?.status]}
-                  </TableCell>
+    <Layout>
+      <Grid container direction='column' spacing={2}>
+        <Grid item>
+          <Typography variant="h1" align="center">{'«تابلوی مزایده»'}</Typography>
+        </Grid>
+        <Grid item>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell align='center'>شناسه</TableCell>
+                  <TableCell align='center'>فروشنده</TableCell>
+                  <TableCell align='center'>خریدار</TableCell>
+                  <TableCell align='center'>قیمت</TableCell>
+                  <TableCell align='center'>مبحث</TableCell>
+                  <TableCell align='center'>سطح</TableCell>
+                  <TableCell align='center'>خرید</TableCell>
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Grid>
-      {/* <Grid item>
+              </TableHead>
+              <TableBody>
+                {allAuctions?.slice().sort((a, b) => { return a.id > b.id ? -1 : 1 }).map((auction, index) =>
+                  <TableRow key={index}>
+                    <TableCell align='center'>
+                      {toPersianNumber(auction?.id)}
+                    </TableCell>
+                    <TableCell align='center'>
+                      {auction.seller?.name}
+                    </TableCell>
+                    <TableCell align='center'>
+                      {auction.buyer?.name || '-'}
+                    </TableCell>
+                    <TableCell align='center'>
+                      {toPersianNumber(auction.price)}
+                    </TableCell>
+                    <TableCell align='center'>
+                      {auction.problem?.subject?.title}
+                    </TableCell>
+                    <TableCell align='center'>
+                      {DIFFICULTY[auction.problem?.difficulty]}
+                    </TableCell>
+                    <TableCell align='center'>
+                      <Tooltip title={
+                        auction.buyer
+                          ? 'این مسئله فروخته شده است.'
+                          : 'خرید مسئله'
+                      } arrow>
+                        <IconButton
+                          onClick={
+                            auction.buyer
+                              ? () => { }
+                              : () => buyProblemInAuction(auction.id)
+                          }>
+                          <MonetizationOnOutlinedIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {/* <Grid item>
             <Pagination
               count={totalNumberOfPages}
               page={currentPage}
@@ -82,18 +115,19 @@ function Index({
               hidePrevButton hideNextButton
             />
           </Grid> */}
-    </Grid >
+        </Grid>
+      </Grid >
+    </Layout>
   );
 }
 const mapStateToProps = (state) => ({
-  articles: state.mentor.articles,
-  registrationFormId: state.events.event?.registration_form,
-  allRegistrationReceipts: state.events.allRegistrationReceipts || [],
+  allAuctions: state.auction.allAuctions,
 });
 
 export default connect(
   mapStateToProps,
   {
-    getAllRegistrationReceipts: getAllRegistrationReceiptsAction,
+    buyAuction: buyAuctionAction,
+    getAllAuctions: getAllAuctionsAction,
   }
 )(Index);

@@ -12,6 +12,12 @@ export const createAuctionAction = createAsyncThunkApi(
   'account/createAuctionAction',
   Apis.POST,
   createAuctionUrl,
+  {
+    defaultNotification: {
+      success: 'مسئله‌ی شما با موفقیت در تابلوی مزایده قرار گرفت!',
+      error: 'مشکلی وجود داشت. دوباره تلاش کنید.',
+    },
+  }
 );
 
 export const getAllAuctionsAction = createAsyncThunkApi(
@@ -24,12 +30,19 @@ export const buyAuctionAction = createAsyncThunkApi(
   'events/buyAuctionAction',
   Apis.POST,
   buyAuctionUrl,
+  {
+    defaultNotification: {
+      success: 'شما مسئله را با موفقیت خریدید. اکنون می‌توانید آن را بین مجموعه مسائل خود مشاهده کنید.',
+      error: 'مشکلی وجود داشت. دوباره تلاش کنید.',
+    },
+  }
 );
 
 
 
 const initialState = {
   isFetching: false,
+  allAuctions: [],
 };
 
 const isFetching = (state) => {
@@ -44,13 +57,12 @@ const eventSlice = createSlice({
   name: 'events',
   initialState,
   extraReducers: {
-
-    // [getPlayerAction.pending.toString()]: isFetching,
-    // [getPlayerAction.fulfilled.toString()]: (state, { payload: { response } }) => {
-    //   state.player = response;
-    //   state.isFetching = false;
-    // },
-    // [getPlayerAction.rejected.toString()]: isNotFetching,
+    [getAllAuctionsAction.pending.toString()]: isFetching,
+    [getAllAuctionsAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.allAuctions = response;
+      state.isFetching = false;
+    },
+    [getAllAuctionsAction.rejected.toString()]: isNotFetching,
 
   },
 });

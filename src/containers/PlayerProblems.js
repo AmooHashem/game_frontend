@@ -82,12 +82,10 @@ const PlayerProblems = ({
   const [isDialogOpen, setDialogStatus] = useState(false);
   const [auctionDialogProblem, setAuctionDialogProblem] = useState(false);
 
-
   useEffect(() => {
     getAllPlayerProblems({ gameId });
     getAllGameSubjects({ gameId });
   }, [])
-
 
   const handleSelect = (e) => {
     setProperties({
@@ -99,14 +97,14 @@ const PlayerProblems = ({
   const buyProblem = (e) => {
     if (!properties.difficulty) {
       addNotification({
-        message: 'لطفا سختی مسئله‌ی درخواستی را وارد کن!',
+        message: 'لطفا سختی مسئله‌ی درخواستی را وارد کنید.',
         type: 'error',
       });
       return;
     }
     if (!properties.subject) {
       addNotification({
-        message: 'لطفا مبحث مسئله‌ی درخواستی را وارد کن!',
+        message: 'لطفا مبحث مسئله‌ی درخواستی را وارد کنید.',
         type: 'error',
       });
       return;
@@ -149,12 +147,31 @@ const PlayerProblems = ({
                       <TableCell align='center'>{problem.problem?.subject?.title}</TableCell>
                       <TableCell align='center'>{DIFFICULTY[problem.problem?.difficulty]}</TableCell>
                       <TableCell align='center'>{STATUS[problem.status]}</TableCell>
-                      <TableCell align='center'>{toPersianNumber(problem.problem?.cost || 0)}</TableCell>
+                      <TableCell align='center'>{toPersianNumber(problem.auction_cost || problem.problem?.cost || 0)}</TableCell>
                       <TableCell align='center'>{problem.mark == -1 ? '-' : toPersianNumber(problem.mark || 0)}</TableCell>
                       <TableCell align='center'>
-                        <IconButton onClick={() => setAuctionDialogProblem(problem.problem?.id)}>
-                          <GavelIcon />
-                        </IconButton>
+                        <Tooltip title={
+                          problem.from_auction
+                            ? 'شما این مسئله را در مزایده خریده‌اید و دیگر نمی‌توانید آن را به مزایده بگذارید.'
+                            : (problem.is_sold
+                              ? 'شما پیشتر این مسئله را در مزایده فروخته‌اید.'
+                              : (problem.mark == -1
+                                ? 'پاسخ این مسئله هنوز تصحیح نشده است.'
+                                : (problem.mark >= 2
+                                  ? 'چوق دریافتی شما از این سوال، ۰ یا ۱ نیست؛ به همین خاطر نمی‌توانید آن را به مزایده بگذارید.'
+                                  : 'قراردادن مسئله در تابلوی مزایده')))
+
+
+                        } arrow>
+                          <IconButton
+                            onClick={
+                              (problem.mark >= 2 || problem.mark == -1 || problem.from_auction || problem.is_sold)
+                                ? () => { }
+                                : () => setAuctionDialogProblem(problem.problem?.id)}>
+                            <GavelIcon />
+                          </IconButton>
+                        </Tooltip>
+
                       </TableCell>
                     </TableRow>
                   )}
@@ -221,7 +238,7 @@ const PlayerProblems = ({
         open={auctionDialogProblem}
         handleClose={() => { setAuctionDialogProblem(!auctionDialogProblem) }}
       />
-    </Layout>
+    </Layout >
   );
 }
 

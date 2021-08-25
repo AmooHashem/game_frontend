@@ -98,7 +98,7 @@ const Index = ({
 
   const doGetProblem = () => {
     if (!subject) {
-      toast.error('لطفاً یک موضوع انتخاب کن!');
+      toast.error('لطفاً یک موضوع انتخاب کنید.');
       return;
     }
     requestProblem({ team_id, subject })
@@ -122,8 +122,8 @@ const Index = ({
                     label='موضوع مسئله'
                   >
                     {
-                      PROBLEM_SUBJECTS.map((subject) => (
-                        <MenuItem value={subject[0]}>{subject[1]}</MenuItem>
+                      PROBLEM_SUBJECTS.map((subject, index) => (
+                        <MenuItem key={index} value={subject[0]}>{subject[1]}</MenuItem>
                       ))
                     }
                   </Select>
@@ -137,9 +137,9 @@ const Index = ({
             </Grid>
           </div>
 
-          {problems.map((problem) => {
+          {problems.map((problem, index) => {
             return (
-              <Grid item>
+              <Grid item key={index}>
                 <ProblemCard
                   name={problem.name}
                   score={problem.score}

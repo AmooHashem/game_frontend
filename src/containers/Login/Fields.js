@@ -57,7 +57,7 @@ const InputFields = ({
     const { username, password } = data;
     if (!username || !password) {
       addNotification({
-        message: 'لطفاً همه‌ی مواردی که ازت خواسته شده رو پر کن!',
+        message: 'لطفاً همه‌ی موارد خواسته شده را پر کنید.',
         type: 'error',
       });
       return;

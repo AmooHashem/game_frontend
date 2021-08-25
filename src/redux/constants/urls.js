@@ -20,9 +20,9 @@ export const answerCorrectionUrl = ({ gameId, AnswerId }) =>
 
 
 // auction
-export const auctionUrl = 'auction/';
+export const auctionUrl = ({ gameId }) => `auction/${gameId}/`;
 export const createAuctionUrl = 'auction/create/';
-export const buyAuctionUrl = 'auction/buy/';
+export const buyAuctionUrl = ({ gameId }) => `auction/${gameId}/buy/`;
 
 
 
