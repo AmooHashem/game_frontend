@@ -18,6 +18,9 @@ export const answerCorrectionUrl = ({ gameId, AnswerId }) =>
     ? `game/${gameId}/mentor/problem/${AnswerId}/`
     : `game/${gameId}/mentor/problem/`
 
+export const addProblemUrl = ({ gameId }) => `game/${gameId}/mentor/problem/add/`;
+
+
 
 // auction
 export const auctionUrl = ({ gameId }) => `auction/${gameId}/`;

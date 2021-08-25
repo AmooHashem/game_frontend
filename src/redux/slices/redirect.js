@@ -11,11 +11,8 @@ const redirectSlice = createSlice({
   },
   extraReducers: {
     [answerProblemAction.fulfilled.toString()]: (state, action) => {
-      return { redirectTo: `/game/${action?.meta?.arg.gameId}/my_problems` }
+      return { redirectTo: `/game/${action?.meta?.arg.gameId}/my_problems/` }
     },
-    // [createArticleAction.fulfilled.toString()]: (state, { payload: { response } }) => ({
-    //   redirectTo: `/edit_article/${response.id}`,
-    // }),
   },
 });
 

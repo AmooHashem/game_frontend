@@ -28,7 +28,6 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
-import ResponsiveAppBar from '../components/Appbar/ResponsiveAppBar'
 import AreYouSure from '../components/Dialog/AreYouSure';
 import CreateAuction from '../components/Dialog/CreateAuction';
 import {
@@ -160,8 +159,6 @@ const PlayerProblems = ({
                                 : (problem.mark >= 2
                                   ? 'چوق دریافتی شما از این سوال، ۰ یا ۱ نیست؛ به همین خاطر نمی‌توانید آن را به مزایده بگذارید.'
                                   : 'قراردادن مسئله در تابلوی مزایده')))
-
-
                         } arrow>
                           <IconButton
                             onClick={

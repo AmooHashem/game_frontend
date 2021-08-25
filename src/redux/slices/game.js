@@ -3,14 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Apis } from '../apis';
 import { createAsyncThunkApi } from '../apis/cerateApiAsyncThunk';
 import {
-  allRegistrationReceiptsUrl,
-  eventInfoUrl,
-  playerUrl,
-  playerProblemUrl,
-  oneRegistrationReceiptUrl,
-  subjectUrl,
+  addProblemUrl,
   answerCorrectionUrl,
-  validateRegistrationReceiptUrl,
+  playerProblemUrl,
+  playerUrl,
+  subjectUrl,
 } from '../constants/urls';
 
 export const getPlayerAction = createAsyncThunkApi(
@@ -81,6 +78,17 @@ export const getOneAnswerForCorrectionAction = createAsyncThunkApi(
   answerCorrectionUrl,
 );
 
+export const addProblemAction = createAsyncThunkApi(
+  'events/addProblemAction',
+  Apis.POST,
+  addProblemUrl,
+  {
+    defaultNotification: {
+      success: 'مسئله با موفقیت اضافه شد!',
+      error: 'مشکلی وجود داشت. دوباره تلاش کنید.',
+    },
+  }
+);
 
 
 
@@ -154,6 +162,17 @@ const eventSlice = createSlice({
       state.isFetching = false;
     },
     [getOneAnswerForCorrectionAction.rejected.toString()]: isNotFetching,
+
+
+    [addProblemAction.pending.toString()]: isFetching,
+    [addProblemAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.isFetching = false;
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000)
+    },
+    [addProblemAction.rejected.toString()]: isNotFetching,
+
   },
 });
 
