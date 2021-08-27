@@ -7,6 +7,7 @@ import {
   answerCorrectionUrl,
   playerProblemUrl,
   playerUrl,
+  scoreboardUrl,
   subjectUrl,
 } from '../constants/urls';
 
@@ -90,12 +91,18 @@ export const addProblemAction = createAsyncThunkApi(
   }
 );
 
+export const getScoreboardAction = createAsyncThunkApi(
+  'events/getScoreboardAction',
+  Apis.GET,
+  scoreboardUrl,
+);
 
 
 const initialState = {
   isFetching: false,
   allGameSubjects: [],
   allPlayerProblems: [],
+  players: [],
 };
 
 const isFetching = (state) => {
@@ -172,6 +179,16 @@ const eventSlice = createSlice({
       }, 1000)
     },
     [addProblemAction.rejected.toString()]: isNotFetching,
+
+
+    [getScoreboardAction.pending.toString()]: isFetching,
+    [getScoreboardAction.fulfilled.toString()]: (state, { payload: { response } }) => {
+      state.isFetching = false;
+      state.players = response;
+    },
+    [getScoreboardAction.rejected.toString()]: isNotFetching,
+
+
 
   },
 });

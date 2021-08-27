@@ -17,11 +17,11 @@ const DashboardItems = () => {
   const PlayerInfo = <PlayerInfoComponent />;
 
   return {
-    desktopLeftItems: [logoutButton, Avatar],
+    desktopLeftItems: [scoreBoard, logoutButton, Avatar],
     desktopRightItems: [PlayerInfo, playerProblem],
     mobileLeftItems: [PlayerInfo],
     mobileRightItems: [],
-    mobileMenuListItems: [playerProblem, logoutButton,],
+    mobileMenuListItems: [playerProblem, logoutButton, scoreBoard],
   };
 };
 

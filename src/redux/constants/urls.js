@@ -8,10 +8,13 @@ export const subjectUrl = ({ gameId, subjectId }) =>
   subjectId
     ? `game/${gameId}/subject/${subjectId}/`
     : `game/${gameId}/subject/`;
+
 export const playerProblemUrl = ({ gameId, problemId }) =>
   problemId
     ? `game/${gameId}/problem/${problemId}/`
     : `game/${gameId}/problem/`
+
+export const scoreboardUrl = ({ gameId }) => `game/${gameId}/problem/scoreboard/`;
 
 export const answerCorrectionUrl = ({ gameId, AnswerId }) =>
   AnswerId

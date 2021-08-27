@@ -90,13 +90,6 @@ const ViewProblem = ({
     }
   };
 
-  // if (singleProblem?.status === 'DELIVERED' ||
-  //   singleProblem?.status === 'SCORED' ||
-  //   multipleProblem?.status === 'DELIVERED' ||
-  //   multipleProblem?.status === 'SCORED') {
-  //   return (<Redirect to={`/game/${gameId}/my_problems/`} />)
-  // }
-
   const submitAnswer = () => {
     if (!file?.file && !text) {
       addNotification({
@@ -124,7 +117,7 @@ const ViewProblem = ({
           <Typography variant='h1' align="center">{problem?.title ? `«${problem?.title}»` : ''}</Typography>
         </Grid>
         <Grid container item spacing={2} justify='center'>
-          <Grid container item direction='column' xs={12} md={9} spacing={2}>
+          <Grid container item direction='column' xs={12} md={8} spacing={2}>
             <Grid item>
               <Paper className={classes.paper}>
                 <Grid item container direction='column'>

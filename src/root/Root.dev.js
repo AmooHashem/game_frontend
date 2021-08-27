@@ -15,9 +15,9 @@ const Root = () => {
     <Switch>
       <Route path='/game/:gameId/mentor/correct_answer/' component={CorrectAnswer} />
       <Route path='/game/:gameId/mentor/add_problem/' component={AddProblem} />
+      <Route path='/game/:gameId/scoreboard/' component={Scoreboard} />
 
       <PrivateRoute path='/game/:gameId/auction/' component={Auction} />
-      <PrivateRoute path='/game/:gameId/scoreboard/' component={Scoreboard} />
       <PrivateRoute path='/game/:gameId/player_problems/' component={PlayerProblems} />
       <PrivateRoute path='/game/:gameId/problem/:problemId/' component={ProblemView} />
       <Route path='/' component={Login} />

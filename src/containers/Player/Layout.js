@@ -28,10 +28,10 @@ const Layout = ({ getPlayer, ...props }) => {
   }, [])
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setInterval(() => {
       getPlayer({ gameId })
-    }, 20000);
-    return () => clearTimeout(timer)
+    }, 30000);
+    return () => clearInterval(timer)
   }, [getPlayer]);
 
   return (
