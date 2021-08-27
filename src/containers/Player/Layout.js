@@ -24,10 +24,6 @@ const Layout = ({ getPlayer, ...props }) => {
   let { gameId } = useParams();
 
   useEffect(() => {
-    getPlayer({ gameId })
-  }, [])
-
-  useEffect(() => {
     const timer = setInterval(() => {
       getPlayer({ gameId })
     }, 30000);

@@ -64,6 +64,7 @@ const Index = ({
   const { gameId } = useParams();
 
   useEffect(() => {
+    getScoreboard({ gameId })
     const timer = setInterval(() => {
       getScoreboard({ gameId })
     }, 30000);
