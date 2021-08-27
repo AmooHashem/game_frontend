@@ -216,7 +216,7 @@ const PlayerProblems = ({
                   </FormControl >
                 </Grid>
                 <Grid item>
-                  <Button disabled fullWidth variant='contained' color='primary' onClick={() => setDialogStatus(true)}>دریافت</Button>
+                  <Button fullWidth variant='contained' color='primary' onClick={() => setDialogStatus(true)}>دریافت</Button>
                 </Grid>
               </Grid>
             </Paper>
