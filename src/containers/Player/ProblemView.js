@@ -179,7 +179,7 @@ const ViewProblem = ({
                     </Grid>
                   </Grid>
                   <Grid item>
-                    <Button fullWidth variant='contained' color='primary' onClick={() => setDialogStatus(true)}>ثبت پاسخ</Button>
+                    <Button disabled fullWidth variant='contained' color='primary' onClick={() => setDialogStatus(true)}>ثبت پاسخ</Button>
                   </Grid>
                 </Grid>
               </Paper>
