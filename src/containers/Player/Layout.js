@@ -28,7 +28,7 @@ const Layout = ({ getPlayer, ...props }) => {
       getPlayer({ gameId })
     }, 30000);
     return () => clearInterval(timer)
-  }, [getPlayer]);
+  }, []);
 
   return (
     <>

@@ -69,7 +69,7 @@ const Index = ({
       getScoreboard({ gameId })
     }, 30000);
     return () => clearInterval(timer)
-  }, [getScoreboard]);
+  }, []);
 
   return (
     <Layout>
