@@ -129,7 +129,7 @@ const PlayerProblems = ({
                     <TableCell align='center'>وضعیت</TableCell>
                     <TableCell align='center'>هزینه</TableCell>
                     <TableCell align='center'>پاداش</TableCell>
-                    {/* <TableCell align='center'>مزایده</TableCell> */}
+                    <TableCell align='center'>مزایده</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -147,7 +147,7 @@ const PlayerProblems = ({
                       <TableCell align='center'>{STATUS[problem.status]}</TableCell>
                       <TableCell align='center'>{toPersianNumber(problem.auction_cost || problem.problem?.cost || 0)}</TableCell>
                       <TableCell align='center'>{problem.mark == -1 ? '-' : toPersianNumber(problem.mark || 0)}</TableCell>
-                      {/* <TableCell align='center'>
+                      <TableCell align='center'>
                         <Tooltip title={
                           problem.from_auction
                             ? 'شما این مسئله را در مزایده خریده‌اید و دیگر نمی‌توانید آن را به مزایده بگذارید.'
@@ -167,8 +167,7 @@ const PlayerProblems = ({
                             <GavelIcon />
                           </IconButton>
                         </Tooltip>
-
-                      </TableCell> */}
+                      </TableCell>
                     </TableRow>
                   )}
                 </TableBody>

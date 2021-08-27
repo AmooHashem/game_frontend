@@ -24,7 +24,7 @@ import ResponsiveAppBar from '../../components/Appbar/ResponsiveAppBar'
 import { useParams } from "react-router-dom";
 import TextWidget from '../../components/Widget/TextWidget';
 import { connect } from 'react-redux';
-import { toast } from 'react-toastify';
+import { toast } from '../Game(unused)/node_modules/react-toastify';
 import ProblemCard from './ProblemCard';
 
 const PROBLEM_SUBJECTS = [
