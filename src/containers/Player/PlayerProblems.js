@@ -28,17 +28,17 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
-import AreYouSure from '../components/Dialog/AreYouSure';
-import CreateAuction from '../components/Dialog/CreateAuction';
+import AreYouSure from '../../components/Dialog/AreYouSure';
+import CreateAuction from '../../components/Dialog/CreateAuction';
 import {
   buyRandomProblemAction,
   getAllGameSubjectsAction,
   getAllPlayerProblemsAction,
-} from '../redux/slices/game';
+} from '../../redux/slices/game';
 import {
   addNotificationAction,
-} from '../redux/slices/notifications';
-import { toPersianNumber } from '../utils/translateNumber';
+} from '../../redux/slices/notifications';
+import { toPersianNumber } from '../../utils/translateNumber';
 import Layout from './Layout';
 
 const useStyles = makeStyles((theme) => ({
@@ -138,8 +138,7 @@ const PlayerProblems = ({
                       <TableCell align='center'>
                         <Button
                           disabled={problem.status != 'RECEIVED'}
-                          href={`/game/${gameId}/problem/${problem.problem?.id}/`}
-                          component="a" target="_blank">
+                          href={`/game/${gameId}/problem/${problem.problem?.id}/`}>
                           {problem.problem?.title}
                         </Button>
                       </TableCell>

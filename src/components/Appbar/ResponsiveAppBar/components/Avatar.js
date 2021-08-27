@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => ({
   avatar: {},
 }));
 
-function AvatarComponent({ name = 'f' }) {
+function AvatarComponent({ name = 'بی‌نام' }) {
   const classes = useStyles();
   return (
     <Tooltip title={name} arrow>

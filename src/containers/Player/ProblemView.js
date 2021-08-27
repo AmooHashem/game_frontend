@@ -18,16 +18,16 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import AreYouSure from '../components/Dialog/AreYouSure';
-import TinyPreview from '../components/tiny_editor/react_tiny/Preview';
-import TinyEditor from '../components/tiny_editor/react_tiny/TinyEditorComponent';
+import AreYouSure from '../../components/Dialog/AreYouSure';
+import TinyPreview from '../../components/tiny_editor/react_tiny/Preview';
+import TinyEditor from '../../components/tiny_editor/react_tiny/TinyEditorComponent';
 import {
   answerProblemAction,
   getOnePlayerProblemAction
-} from '../redux/slices/game';
+} from '../../redux/slices/game';
 import {
   addNotificationAction,
-} from '../redux/slices/notifications';
+} from '../../redux/slices/notifications';
 import Layout from './Layout';
 
 const useStyles = makeStyles((theme) => ({
@@ -124,7 +124,7 @@ const ViewProblem = ({
           <Typography variant='h1' align="center">{problem?.title ? `«${problem?.title}»` : ''}</Typography>
         </Grid>
         <Grid container item spacing={2} justify='center'>
-          <Grid container item direction='column' xs={12} md={8} spacing={2}>
+          <Grid container item direction='column' xs={12} md={9} spacing={2}>
             <Grid item>
               <Paper className={classes.paper}>
                 <Grid item container direction='column'>
@@ -161,7 +161,10 @@ const ViewProblem = ({
                       <Button variant='contained' color='secondary' onClick={() => document.getElementById('userProfilePicture').click()}>
                         {'انتخاب فایل'}
                       </Button>
-                      <input value={file.value} id='userProfilePicture' style={{ display: 'none' }} type="file" onChange={handleFileChange} />
+                      <input
+                        value={file.value} accept="application/pdf,image/*"
+                        id='userProfilePicture' type="file"
+                        style={{ display: 'none' }} onChange={handleFileChange} />
                     </Grid>
                     <Grid item>
                       {file.file &&
@@ -174,8 +177,7 @@ const ViewProblem = ({
                                   <ClearIcon />
                                 </IconButton>}
                               endIcon={<DescriptionOutlinedIcon />}
-                              className={classes.lastUploadButton}
-                              target="_blank">
+                              className={classes.lastUploadButton}>
                               {file.file?.name}
                             </Button>
                           </Grid>

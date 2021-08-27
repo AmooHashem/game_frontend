@@ -15,17 +15,17 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import AreYouSure from '../components/Dialog/AreYouSure';
-import TinyEditor from '../components/tiny_editor/react_tiny/TinyEditorComponent';
+import AreYouSure from '../../components/Dialog/AreYouSure';
+import TinyEditor from '../../components/tiny_editor/react_tiny/TinyEditorComponent';
 import {
   addProblemAction,
   getAllGameSubjectsAction,
   getOneAnswerForCorrectionAction,
   setAnswerMarkAction,
-} from '../redux/slices/game';
+} from '../../redux/slices/game';
 import {
   addNotificationAction,
-} from '../redux/slices/notifications';
+} from '../../redux/slices/notifications';
 import Layout from './Layout';
 
 const useStyles = makeStyles((theme) => ({
@@ -94,7 +94,7 @@ const Index = ({
 
   const handleAddProblem = () => {
     const { title, text, difficulty, subject, cost, answer } = properties;
-    if (!title || !text || !difficulty || !subject || !cost || !answer) {
+    if (!title || !text || !difficulty || !subject || !cost) {
       addNotification({
         message: 'لطفاً همه‌ی موارد رو پر کنید.',
         type: 'error',
@@ -132,7 +132,7 @@ const Index = ({
                 <Grid item>
                   <TextField
                     fullWidth variant='outlined'
-                    label='پاسخ کوتاه'
+                    label='پاسخ کوتاه (اختیاری)'
                     name='answer'
                     onChange={handleSelect}
                     value={properties.answer} />

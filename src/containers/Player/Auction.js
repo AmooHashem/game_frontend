@@ -19,8 +19,8 @@ import { useParams } from 'react-router';
 import {
   buyAuctionAction,
   getAllAuctionsAction,
-} from '../redux/slices/auction';
-import { toPersianNumber } from '../utils/translateNumber';
+} from '../../redux/slices/auction';
+import { toPersianNumber } from '../../utils/translateNumber';
 import Layout from './Layout';
 
 const DIFFICULTY = {

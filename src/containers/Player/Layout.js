@@ -1,13 +1,12 @@
-import { Button, Container, Grid, makeStyles, Paper } from '@material-ui/core';
+import { Container, makeStyles } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 
+import AppBar from '../../components/Appbar/ResponsiveAppBar';
 import {
   getPlayerAction,
-} from '../redux/slices/game';
-
-import AppBar from '../components/Appbar/ResponsiveAppBar';
+} from '../../redux/slices/game';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -24,9 +23,15 @@ const Layout = ({ getPlayer, ...props }) => {
   const classes = useStyles();
   let { gameId } = useParams();
 
-
   useEffect(() => {
     getPlayer({ gameId })
+  }, [])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      getPlayer({ gameId })
+    }, 20000);
+    return () => clearTimeout(timer)
   }, [getPlayer]);
 
   return (
@@ -39,7 +44,7 @@ const Layout = ({ getPlayer, ...props }) => {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = () => {
 }
 
 export default connect(
